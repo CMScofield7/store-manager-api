@@ -2,7 +2,11 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/connection');
 const { productsModel } = require('../../../src/models');
-const { getAllProductsMock, getProductsByIdMock } = require('./mocks/products.model.mock');
+const {
+  getAllProductsMock,
+  getProductsByIdMock,
+  createProductMock
+} = require('./mocks/products.model.mock');
 
 describe('Testando products.model', function () {
   afterEach(sinon.restore);
@@ -27,5 +31,15 @@ describe('Testando products.model', function () {
       expect(getProductsById).to.be.an('object');
       expect(getProductsById).to.be.deep.equal(getProductsByIdMock);
     })
-  })
+  });
+
+  describe('Testando a conexão da função createProduct', function () {
+    it('Envia um objeto pro banco de dados', async function () {
+      sinon.stub(connection, 'execute').resolves([{ insertId: 4 }]);
+      
+      const createProduct = await productsModel.createProduct(createProductMock);
+
+      expect(createProduct).to.be.equal(4);
+    });
+  });
 });

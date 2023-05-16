@@ -30,8 +30,17 @@ const productNotFoundMock = {
   statusCode: 404,
 };
 
+const createProductMock = {
+  type: null,
+  message: {
+    "id": 4,
+    "name": "Deck de Yu-Gi-Oh!"
+  }
+}
+
 module.exports = {
   getAllProductsMock,
   getProductsByIdMock,
   productNotFoundMock,
+  createProductMock,
 };

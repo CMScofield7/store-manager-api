@@ -2,7 +2,11 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const { productsModel } = require('../../../src/models');
 const { productsService } = require('../../../src/services');
-const { getAllProductsMock, getProductsByIdMock } = require('./mocks/products.service.mock');
+const {
+  getAllProductsMock,
+  getProductsByIdMock,
+  createProductMock,
+} = require('./mocks/products.service.mock');
 
 describe('Testando products.service', function () {
   afterEach(sinon.restore);
@@ -37,6 +41,19 @@ describe('Testando products.service', function () {
 
       expect(getProductsById.type).not.to.be.equal(null);
       expect(getProductsById.message).to.be.equal('Product not found');
+    });
+  });
+
+  describe('Testando a conexão da função createProduct', function () {
+    it('Envia um objeto pro banco de dados', async function () {
+      sinon.stub(productsModel, 'createProduct').resolves(createProductMock.id);
+
+      const createProduct = await productsService.createProduct(createProductMock.name);
+      console.log(createProduct);
+
+      expect(createProduct.type).to.be.equal(null);
+      expect(createProduct.message).to.be.an('object')
+      expect(createProduct.message).to.be.deep.equal(createProductMock);
     });
   });
 });

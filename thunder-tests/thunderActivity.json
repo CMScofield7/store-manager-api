@@ -4,16 +4,16 @@
     "colId": "history",
     "containerId": "",
     "name": "http://localhost:3001/products",
-    "url": "localhost:3001/products/",
+    "url": "localhost:3001/products",
     "method": "POST",
     "sortNum": 0,
     "created": "2023-05-15T04:00:27.194Z",
-    "modified": "2023-05-16T05:45:22.011Z",
+    "modified": "2023-05-16T06:06:32.917Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"BeyBlade\"\n}",
+      "raw": "{\n  \"name\": \"Deck de Yu-Gi-Oh!\"\n}",
       "form": []
     },
     "tests": []

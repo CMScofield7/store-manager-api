@@ -2,7 +2,12 @@ const chai = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 
-const { getAllProductsMock, getProductsByIdMock, productNotFoundMock } = require('./mocks/product.controller.mock');
+const {
+  getAllProductsMock,
+  getProductsByIdMock,
+  productNotFoundMock,
+  createProductMock,
+} = require('./mocks/product.controller.mock');
 const { productsService } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers');
 
@@ -69,6 +74,30 @@ describe('Testando o products.controller', function () {
 
       expect(res.status).to.be.calledWith(404);
       expect(res.send).to.be.calledWith({ message: productNotFoundMock.message });
+    });
+  });
+
+  describe('Testando a função createProduct', function () {
+    it('Cria um novo produto', async function () {
+      sinon.stub(productsService, 'createProduct').resolves(createProductMock);
+
+      const req = {
+        body: {
+          name: 'Deck de Yu-Gi-Oh!'
+        }
+      };
+
+      const res = {
+        status: sinon.stub().returnsThis(),
+        send: sinon.stub(),
+      };
+
+      await productsController.createProduct(req, res);
+
+      console.log(res.send.args[0]);
+
+      expect(res.status).to.be.calledWith(201);
+      expect(res.send).to.be.calledWith(createProductMock.message);
     });
   });
 });

@@ -18,7 +18,13 @@ const getProductsByIdMock = {
   "name": "Escudo do Capitão América"
 };
 
+const createProductMock = {
+  "id": 4,
+  "name": "Deck de Yu-Gi-Oh!"
+};
+
 module.exports = {
   getAllProductsMock,
   getProductsByIdMock,
+  createProductMock,
 };
