@@ -1,6 +1,6 @@
 const { salesService } = require('../services');
 
-const createProduct = async (req, res) => {
+const createSale = async (req, res) => {
   const { body } = req;
   const sales = await salesService.createSale(body);
 
@@ -9,5 +9,5 @@ const createProduct = async (req, res) => {
 };
 
 module.exports = {
-  createProduct,
+  createSale,
 };

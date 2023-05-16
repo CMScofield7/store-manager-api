@@ -8,12 +8,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2023-05-15T04:00:27.194Z",
-    "modified": "2023-05-16T18:58:33.100Z",
+    "modified": "2023-05-16T19:07:24.984Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"Deck de Yu-Gi-Oh!\"\n}",
+      "raw": "{\n  \"id\": 4,\n  \"itemsSold\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 1\n    },\n    {\n      \"productId\": 2,\n      \"quantity\": 5\n    }\n  ]\n}",
       "form": []
     },
     "tests": []

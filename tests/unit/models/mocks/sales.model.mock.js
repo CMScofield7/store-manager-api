@@ -1,0 +1,20 @@
+const salesMock = [
+  { productId: 1, quantity: 10 },
+  { productId: 2, quantity: 5 },
+];
+
+const insertId = 1;
+
+const expectedCreatedSaleMock = {
+  id: insertId,
+  itemsSold: [
+    { productId: 1, quantity: 10 },
+    { productId: 2, quantity: 5 },
+  ],
+};
+
+module.exports = {
+  salesMock,
+  insertId,
+  expectedCreatedSaleMock,
+};
