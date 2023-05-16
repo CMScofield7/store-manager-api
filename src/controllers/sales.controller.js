@@ -8,6 +8,25 @@ const createSale = async (req, res) => {
   return res.status(201).send(sales.message);
 };
 
+const getAllSales = async (_req, res) => {
+  const getSales = await salesService.getAllSales();
+  return res.status(200).send(getSales.message);
+};
+
+const getSalesWithProductsById = async (req, res) => {
+  const { id } = req.params;
+  const getSalesWithProducts = await salesService.getSalesWithProductsById(Number(id));
+  
+  if (getSalesWithProducts.type) {
+    return res.status(getSalesWithProducts.statusCode)
+      .send({ message: getSalesWithProducts.message });
+  }
+
+  return res.status(200).send(getSalesWithProducts.message);
+};
+
 module.exports = {
   createSale,
+  getAllSales,
+  getSalesWithProductsById,
 };
