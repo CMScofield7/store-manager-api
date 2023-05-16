@@ -14,8 +14,8 @@ describe('Testando products.service', function () {
       const getAllProducts = await productsService.getAllProducts();
 
       expect(getAllProducts.type).to.be.equal(null);
-      expect(getAllProducts).to.be.an('array');
-      expect(getAllProducts).to.be.deep.equal(getAllProductsMock);
+      expect(getAllProducts.message).to.be.an('array');
+      expect(getAllProducts.message).to.be.deep.equal(getAllProductsMock);
     });
   });
 
@@ -26,8 +26,8 @@ describe('Testando products.service', function () {
       const getProductsById = await productsService.getProductsById();
 
       expect(getProductsById.type).to.be.equal(null);
-      expect(getProductsById).to.be.an('object');
-      expect(getProductsById).to.be.deep.equal(getProductsByIdMock);
+      expect(getProductsById.message).to.be.an('object');
+      expect(getProductsById.message).to.be.deep.equal(getProductsByIdMock);
     });
 
     it('Testando a função getProductsById caso não haja ID', async function () {
