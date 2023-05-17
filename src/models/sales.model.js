@@ -6,11 +6,9 @@ const createSale = async (sales) => {
 
   const itemsSold = await Promise.all(
     sales.map(async ({ productId, quantity }) => {
-      await connection.execute(
-        'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES(?, ?, ?);',
-        [insertId, productId, quantity],
-      );
-      
+      const query = 'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES(?, ?, ?);';
+      await connection.execute(query, [insertId, productId, quantity]);
+
     return { productId, quantity };
     }),
   );
@@ -25,10 +23,8 @@ const getAllSales = async () => {
   const [salesProducts] = await connection.execute('SELECT * FROM sales_products');
 
   const salesPromise = salesProducts.map(async (sale) => {
-    const [[{ date }]] = await connection.execute(
-      'SELECT date FROM sales WHERE id = ?',
-      [sale.sale_id],
-    );
+    const query = 'SELECT date FROM sales WHERE id = ?';
+    const [[{ date }]] = await connection.execute(query, [sale.sale_id]);
 
     return { ...camelize(sale), date };
   });
@@ -59,9 +55,18 @@ const getSaleById = async (id) => {
   return result;
 };
 
+const deleteSaleById = async (id) => {
+  await connection.execute('DELETE FROM sales_products WHERE sale_id = ?', [id]);
+
+  const [{ affectedRows }] = await connection.execute('DELETE FROM sales WHERE id = ?', [id]);
+
+  return affectedRows;
+};
+
 module.exports = {
   createSale,
   getAllSales,
   getSalesWithProductsById,
   getSaleById,
+  deleteSaleById,
 };

@@ -25,8 +25,20 @@ const getSalesWithProductsById = async (req, res) => {
   return res.status(200).send(getSalesWithProducts.message);
 };
 
+const deleteSaleById = async (req, res) => {
+  const { id } = req.params;
+  const failToDelete = await salesService.deleteSaleById(Number(id));
+
+  if (failToDelete) {
+    return res.status(failToDelete.statusCode).send({ message: failToDelete.message });
+  }
+
+  return res.status(204).end();
+};
+
 module.exports = {
   createSale,
   getAllSales,
   getSalesWithProductsById,
+  deleteSaleById,
 };
