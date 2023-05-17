@@ -7,12 +7,23 @@ const getAllProducts = async () => {
 
 const getProductsById = async (id) => {
   const query = 'SELECT * FROM products WHERE id = ?;';
+
   const [[result]] = await connection.execute(query, [id]);
+
+  return result;
+};
+
+const getProductBySearch = async (name) => {
+  const query = 'SELECT * FROM products WHERE name LIKE(?);';
+
+  const [result] = await connection.execute(query, [name]);
+
   return result;
 };
 
 const createProduct = async (name) => {
   const query = 'INSERT INTO products (name) VALUES (?);';
+
   const [{ insertId }] = await connection.execute(query, [name]);
 
   return insertId;
@@ -20,19 +31,24 @@ const createProduct = async (name) => {
 
 const updateProduct = async (name, id) => {
   const query = 'UPDATE products SET name = ? WHERE id = ?;';
+
   const [{ affectedRows }] = await connection.execute(query, [name, id]);
+
   return affectedRows;
 };
 
 const deleteProduct = async (id) => {
   const query = 'DELETE FROM products WHERE id = ?;';
+
   const [{ affectedRows }] = await connection.execute(query, [id]);
+
   return affectedRows;
 };
 
 module.exports = {
   getAllProducts,
   getProductsById,
+  getProductBySearch,
   createProduct,
   updateProduct,
   deleteProduct,
