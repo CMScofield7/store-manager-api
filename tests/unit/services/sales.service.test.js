@@ -4,16 +4,24 @@ const sinonChai = require('sinon-chai');
 
 const { salesModel, productsModel } = require('../../../src/models');
 const { salesService } = require('../../../src/services');
-const { salesMock } = require('./mocks/sales.service.mock');
+const {
+  salesMock,
+  getSalesMock,
+  expectedReturn,
+  getSalesByIdMock,
+  getSalesWithProductsByIdMock,
+  expectedReturnMock,
+  expectedNotFoundMock,
+} = require('./mocks/sales.service.mock');
 
 chai.use(sinonChai);
 const { expect } = chai;
 
-describe('Testando o sales.service', () => {
-  describe('Testando a função createSale', () => {
+describe('Testando o sales.service', function () {
+  describe('Testando a função createSale', function () {
     afterEach(sinon.restore);
 
-    it('Retorna uma mensagem de sucesso caso todos os produtos forem encontrados', async () => {
+    it('Retorna uma mensagem de sucesso caso todos os produtos forem encontrados', async function () {
       const salesMock = [
         { productId: 1, quantity: 2 },
         { productId: 2, quantity: 1 },
@@ -31,7 +39,7 @@ describe('Testando o sales.service', () => {
       });
     });
 
-    it('Retorna uma mensagem de falha caso qualquer produto não for encontrado', async () => {
+    it('Retorna uma mensagem de falha caso qualquer produto não for encontrado', async function () {
       
       const getProductsByIdStub = sinon.stub(productsModel, 'getProductsById').resolves(false);
 
@@ -43,6 +51,47 @@ describe('Testando o sales.service', () => {
         message: 'Product not found',
         statusCode: 404,
       });
+    });
+  });
+
+  describe('Testando a função getAllSales', function () {
+    afterEach(sinon.restore);
+
+    it('Deve retornar todas as vendas', async function () {
+      const getAllSalesStub = sinon.stub(salesModel, 'getAllSales').resolves(getSalesMock);
+
+      const getAllSales = await salesService.getAllSales();
+
+      expect(getAllSalesStub).to.have.been.calledOnce;
+      expect(getAllSales).to.deep.equal(expectedReturn);
+    });
+  });
+
+  describe('Testando a função getSalesWithProductsById', function () {
+    afterEach(sinon.restore);
+
+    it('Deve retornar vendas com produtos pelo ID', async function () {
+      const id = 1;
+
+      sinon.stub(salesModel, 'getSaleById').resolves(getSalesByIdMock);
+
+      const getSalesWithProductsByIdStub = sinon.stub(salesModel, 'getSalesWithProductsById').resolves(getSalesWithProductsByIdMock);
+
+      const getSalesWithProductsById = await salesService.getSalesWithProductsById(id);
+
+      expect(getSalesWithProductsByIdStub).to.have.been.calledOnceWith(id);
+      expect(getSalesWithProductsById).to.deep.equal(expectedReturnMock);
+    });
+
+    it('Deve retornar "Sale not found" quando as vendas pelo ID não existirem', async function () {
+      const id = 1;
+
+      const getSaleByIdStub = sinon.stub(salesModel, 'getSaleById').resolves(null);
+
+      const getSalesWithProductsById = await salesService.getSalesWithProductsById(id);
+
+      expect(getSaleByIdStub).to.have.been.calledOnceWith(id);
+      expect(getSalesWithProductsById).to.deep.equal(expectedNotFoundMock);
     });
   });
 });

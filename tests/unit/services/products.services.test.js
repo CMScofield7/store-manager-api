@@ -49,7 +49,6 @@ describe('Testando products.service', function () {
       sinon.stub(productsModel, 'createProduct').resolves(createProductMock.id);
 
       const createProduct = await productsService.createProduct(createProductMock.name);
-      console.log(createProduct);
 
       expect(createProduct.type).to.be.equal(null);
       expect(createProduct.message).to.be.an('object')
